@@ -69,6 +69,7 @@ if command == "add":
 
 ##
 # update tasks descripton 
+# make all elif / else 
 if command == "updateDESC":
 
     # checks if there are enough arguments 
@@ -179,4 +180,39 @@ if command == "update":
         sys.exit()                            
 
 ##
-# delete a task 
+# delete a task
+if command == "delete":
+    if len(arguments) < 3:
+        print("Usage: python main.py delete <ID>")
+        sys.exit()
+
+    if not os.path.exists(task_file):
+        print("There are NO tasks to Delete.")
+        sys.exit()
+
+    try:
+        task_id = int(arguments[2])
+        task_found = False
+
+        for task in tasks:
+
+            if task['id'] == task_id:
+                tasks.remove(task)
+                task_found = True
+                break 
+
+        if task_found:
+            with open(task_file, 'w') as file:
+                json.dump(tasks, file, indent=3)
+                print(f"Task {task_id} was deleted successfully!!")
+        else:
+            print(f"Task with id {task_id} was not found!!")
+    except ValueError:
+        print("Task ID must be an integer.")
+        sys.exit()
+
+
+
+        
+
+
