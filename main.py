@@ -3,18 +3,12 @@ import os
 import json
 import datetime
 
-
 # stores the command line arguments as a list 
 arguments = sys.argv 
 
-# checks if there are enough arguments. 
-if len(arguments) < 3:
-    # if there are not enough arguments and error message is printed
-    print("Usage: python main.py <command> arguments ... example: python main.py add \"your task description\"")
-    sys.exit()
-
 command = arguments[1]
 task_file = 'tasks.json'
+
 # gets the current time and date
 current_time_and_date = datetime.datetime.now().isoformat()
 
@@ -69,8 +63,7 @@ if command == "add":
 
 ##
 # update tasks descripton 
-# make all elif / else 
-if command == "updateDESC":
+elif command == "updateDESC":
 
     # checks if there are enough arguments 
     if len(arguments) < 4:
@@ -107,7 +100,7 @@ if command == "updateDESC":
 
 ##
 # check task ID 
-if command == "checkID":
+elif command == "checkID":
 
     # checks if there are enough arguments
     if len(arguments) < 3:
@@ -136,7 +129,7 @@ if command == "checkID":
 
 ##
 # update task status 
-if command == "update":
+elif command == "update":
 
     # checks if there are enough arguments
     if len(arguments) < 4:
@@ -181,7 +174,7 @@ if command == "update":
 
 ##
 # delete a task
-if command == "delete":
+elif command == "delete":
     if len(arguments) < 3:
         print("Usage: python main.py delete <ID>")
         sys.exit()
@@ -210,6 +203,146 @@ if command == "delete":
     except ValueError:
         print("Task ID must be an integer.")
         sys.exit()
+
+##
+# list all tasks 
+
+elif command == "listALL":
+
+    if len(arguments) < 2:
+        print("Usage:  python main.py listALL")
+        sys.exit()
+
+    if not os.path.exists(task_file):
+        print("There are NO tasks to List.")
+        sys.exit()
+
+    if not tasks:
+        print("There are NO tasks to List.")
+        sys.exit()    
+
+    print("Listing all tasks:")
+    print(tasks)
+
+    for task in tasks:
+        print(f"ID: {task['id']} \n Description: {task['description']} \n Status: {task['status']} \n Created At: {task['createdAt']} \n Updated At: {task['updatedAt']}")
+        print("")
+
+
+        
+##
+# list tasks by status to-do
+elif command == "listTODO":
+    if len(arguments) < 2:
+        print("Usage:  python main.py listTODO")
+        sys.exit()
+
+    if not os.path.exists(task_file):
+        print("There are NO tasks to-do List.")
+        sys.exit()
+
+
+    todo_tasks = []
+    for task in tasks:
+        if task["status"] == "todo":
+            todo_tasks.append(task)
+
+    if not todo_tasks:
+        print("There are NO tasks with status 'todo'.")
+        sys.exit()
+
+    print("Listing all tasks with status 'todo':")
+    for task in todo_tasks:
+        print(f"ID: {task['id']} \n Description: {task['description']} \n Status: {task['status']} \n Created At: {task['createdAt']} \n Updated At: {task['updatedAt']}")
+        print("")
+
+##
+# list tasks by status in-progress
+elif command == "listINPROG":
+    if len(arguments) < 2:
+        print("Usage:  python main.py listINPROG")
+        sys.exit()
+
+    if not os.path.exists(task_file):
+        print("There are NO tasks to List.")
+        sys.exit()
+
+
+    inprog_tasks = []
+    for task in tasks:
+        if task["status"] == "in-progress":
+            inprog_tasks.append(task)
+
+    if not inprog_tasks:
+        print("There are NO tasks with status 'in-progress'.")
+        sys.exit()
+
+    print("Listing all tasks with status 'in-progress':")
+    for task in inprog_tasks:
+        print(f"ID: {task['id']} \n Description: {task['description']} \n Status: {task['status']} \n Created At: {task['createdAt']} \n Updated At: {task['updatedAt']}")
+        print("")
+
+##
+# list tasks by status done
+elif command == "listDONE":
+    if len(arguments) < 2:
+        print("Usage:  python main.py listDONE")
+        sys.exit()
+
+    if not os.path.exists(task_file):
+        print("There are NO tasks to List.")
+        sys.exit()
+
+
+    done_tasks = []
+    for task in tasks:
+        if task["status"] == "done":
+            done_tasks.append(task)
+
+    if not done_tasks:
+        print("There are NO tasks with status 'done'.")
+        sys.exit()
+
+    print("Listing all tasks with status 'done':")
+    for task in done_tasks:
+        print(f"ID: {task['id']} \n Description: {task['description']} \n Status: {task['status']} \n Created At: {task['createdAt']} \n Updated At: {task['updatedAt']}")
+        print("")
+
+##
+# help command
+elif command == "help":
+    print("Task Management Application Commands:\n")
+    print("1. Add a new task:")
+    print("   python main.py add \"task description\" \n")
+    print("2. Update task description:")
+    print("   python main.py updateDESC task_id \"new description\" \n")
+    print("3. Check task ID by description:")
+    print("   python main.py checkID \"task description\" \n")
+    print("4. Update task status:")
+    print("   python main.py update task_id new_status (new_status must be one of: todo, in-progress, done) \n")
+    print("5. Delete a task:")
+    print("   python main.py delete task_id \n ")
+    print("6. List all tasks:")
+    print("   python main.py listALL \n")
+    print("7. List tasks with status 'todo':")
+    print("   python main.py listTODO \n ")
+    print("8. List tasks with status 'in-progress':")
+    print("   python main.py listINPROG \n")
+    print("9. List tasks with status 'done':")
+    print("   python main.py listDONE \n")
+    print("10. Display this help message:")
+    print("   python main.py help \n")
+
+##
+# invalid command
+else: 
+    print(f"Invalid command: {command}")
+    print("Use 'python main.py help' to see the list of available commands.")
+    sys.exit()
+
+
+
+
 
 
 
