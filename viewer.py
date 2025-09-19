@@ -18,7 +18,7 @@ def status_type(canvas, x , y, status):
         canvas.create_oval(x - radius, y - radius, x + radius, y + radius, outline="grey", width = 1)
         canvas.create_arc(x - radius, y - radius, x + radius, y + radius, start=90, extent=180, fill="grey", outline="grey")
     elif status == "done":
-        canvas.create_oval(x - radius, y - radius, x + radius, y + radius, outline="grey", fill="green", width = 2)
+        canvas.create_oval(x - radius, y - radius, x + radius, y + radius, outline="grey", fill="grey", width = 1)
     else:
         raise ValueError("Unknown status type")
     
